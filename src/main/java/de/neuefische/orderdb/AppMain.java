@@ -2,9 +2,9 @@ package de.neuefische.orderdb;
 
 import de.neuefische.orderdb.db.ProductDb;
 import de.neuefische.orderdb.model.Product;
+import de.neuefische.orderdb.utils.PrintUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AppMain {
 
@@ -13,8 +13,7 @@ public class AppMain {
 
     ProductDb productDb = setupProductDb();
 
-    printProducts(productDb);
-
+    PrintUtils.printProducts(productDb);
     // order product
     // print orders
   }
@@ -26,13 +25,4 @@ public class AppMain {
     initialProducts.add(new Product("3", "Möhre"));
     return new ProductDb(initialProducts);
   }
-
-  private static void printProducts(ProductDb db) {
-    List<Product> products = db.listProducts();
-    System.out.println("Products:");
-    for (Product product : products) {
-      System.out.println(product);
-    }
-  }
-
 }
