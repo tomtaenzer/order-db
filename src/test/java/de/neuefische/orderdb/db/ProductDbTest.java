@@ -32,4 +32,22 @@ class ProductDbTest {
     assertTrue(result.contains(new Product("3", "Möhre")));
   }
 
+  @Test
+  @DisplayName("getProductById should return Product with id")
+  public void getProductByIdShouldReturnProduct(){
+    //GIVEN
+    ArrayList<Product> products = new ArrayList<>();
+    products.add(new Product("1", "Paprika"));
+    products.add(new Product("2", "Tomate"));
+    products.add(new Product("3", "Möhre"));
+
+    ProductDb db = new ProductDb(products);
+
+    //WHEN
+    Product result = db.getProductById("2");
+
+    //THEN
+    assertEquals(new Product("2", "Tomate"), result);
+  }
+
 }

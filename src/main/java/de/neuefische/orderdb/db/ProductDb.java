@@ -18,4 +18,13 @@ public class ProductDb {
     return Collections.unmodifiableList(products);
   }
 
+  public Product getProductById(String id){
+    for (Product product : products) {
+      if(product.getId().equals( id)){
+        return product;
+      }
+    }
+    return null;
+  }
+
 }
