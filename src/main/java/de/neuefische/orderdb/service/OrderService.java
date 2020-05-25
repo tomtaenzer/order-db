@@ -7,6 +7,7 @@ import de.neuefische.orderdb.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class OrderService {
@@ -22,8 +23,12 @@ public class OrderService {
     ArrayList<Product> products = new ArrayList<>();
 
     for (String productId : productIdsToOrder) {
-      Product product = productsDb.getProductById(productId);
-      products.add(product);
+      Optional<Product> optionalProduct = productsDb.getProductById(productId);
+      if (optionalProduct.isPresent()) {
+        products.add(optionalProduct.get());
+      } else {
+        throw new IllegalArgumentException("Product with id " + productId + " not found");
+      }
     }
     String uuid = UUID.randomUUID().toString();
     Order order = new Order(uuid, products);

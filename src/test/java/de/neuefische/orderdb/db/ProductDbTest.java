@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,10 +45,29 @@ class ProductDbTest {
     ProductDb db = new ProductDb(products);
 
     //WHEN
-    Product result = db.getProductById("2");
+    Optional<Product> result = db.getProductById("2");
 
     //THEN
-    assertEquals(new Product("2", "Tomate"), result);
+    assertEquals(new Product("2", "Tomate"), result.get());
+  }
+
+
+  @Test
+  @DisplayName("getProductById should return empty Optional when product id not found")
+  public void getProductByIdProductNotExists(){
+    //GIVEN
+    ArrayList<Product> products = new ArrayList<>();
+    products.add(new Product("1", "Paprika"));
+    products.add(new Product("2", "Tomate"));
+    products.add(new Product("3", "Möhre"));
+
+    ProductDb db = new ProductDb(products);
+
+    //WHEN
+    Optional<Product> result = db.getProductById("7");
+
+    //THEN
+    assertTrue(result.isEmpty());
   }
 
 }

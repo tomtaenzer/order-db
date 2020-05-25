@@ -5,6 +5,7 @@ import de.neuefische.orderdb.model.Product;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ProductDb {
 
@@ -18,13 +19,13 @@ public class ProductDb {
     return Collections.unmodifiableList(products);
   }
 
-  public Product getProductById(String id){
+  public Optional<Product> getProductById(String id){
     for (Product product : products) {
       if(product.getId().equals( id)){
-        return product;
+        return Optional.of(product);
       }
     }
-    return null;
+    return Optional.empty();
   }
 
 }

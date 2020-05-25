@@ -16,7 +16,7 @@ class OrderServiceTest {
 
   @Test
   @DisplayName("orderProducts should  return a new Order")
-  public void orderProductsReturnNewOrder(){
+  public void orderProductsReturnNewOrder() {
     //GIVEN
     ArrayList<Product> initialProducts = new ArrayList<>();
     initialProducts.add(new Product("1", "Paprika"));
@@ -41,7 +41,7 @@ class OrderServiceTest {
 
   @Test
   @DisplayName("two orders should have different ids")
-  public void twoOrdersShouldHaveDifferentIds(){
+  public void twoOrdersShouldHaveDifferentIds() {
     //GIVEN
     ArrayList<Product> initialProducts = new ArrayList<>();
     initialProducts.add(new Product("1", "Paprika"));
@@ -64,7 +64,7 @@ class OrderServiceTest {
 
   @Test
   @DisplayName("orderProducts should save order to db")
-  public void orderProductsShouldSaveOrderToDb(){
+  public void orderProductsShouldSaveOrderToDb() {
     //GIVEN
     OrderDb orderDb = new OrderDb();
 
@@ -73,7 +73,7 @@ class OrderServiceTest {
     initialProducts.add(new Product("2", "Tomate"));
     initialProducts.add(new Product("3", "Möhre"));
     ProductDb productsDb = new ProductDb(initialProducts);
-    OrderService service = new OrderService(productsDb,orderDb);
+    OrderService service = new OrderService(productsDb, orderDb);
 
     ArrayList<String> productIdsToOrder = new ArrayList<>();
     productIdsToOrder.add("2");
@@ -88,11 +88,11 @@ class OrderServiceTest {
     assertEquals(2, result.getProducts().size());
     assertTrue(result.getProducts().contains(new Product("2", "Tomate")));
     assertTrue(result.getProducts().contains(new Product("3", "Möhre")));
-    assertEquals(order.getId(),result.getId());
+    assertEquals(order.getId(), result.getId());
   }
 
   @Test
-  public void listOrdersShouldReturnAllOrdersFromDb(){
+  public void listOrdersShouldReturnAllOrdersFromDb() {
     //GIVEN
 
     OrderDb orderDb = new OrderDb();
@@ -106,7 +106,7 @@ class OrderServiceTest {
     Order secondOrder = new Order("3", secondProducts);
     orderDb.addOrder(secondOrder);
 
-    OrderService service = new OrderService(null,orderDb);
+    OrderService service = new OrderService(null, orderDb);
 
     //WHEN
     List<Order> orders = service.listOrders();
@@ -115,6 +115,33 @@ class OrderServiceTest {
     assertEquals(2, orders.size());
     assertTrue(orders.contains(firstOrder));
     assertTrue(orders.contains(secondOrder));
+  }
+
+  @Test
+  public void orderNotExistingProductShouldThrowAnException() {
+    //GIVEN
+    OrderDb orderDb = new OrderDb();
+
+    ArrayList<Product> initialProducts = new ArrayList<>();
+    initialProducts.add(new Product("1", "Paprika"));
+    initialProducts.add(new Product("2", "Tomate"));
+    initialProducts.add(new Product("3", "Möhre"));
+    ProductDb productsDb = new ProductDb(initialProducts);
+    OrderService service = new OrderService(productsDb, orderDb);
+
+    ArrayList<String> productIdsToOrder = new ArrayList<>();
+    productIdsToOrder.add("2");
+    productIdsToOrder.add("6");
+
+    //WHEN
+    try {
+      service.orderProducts(productIdsToOrder);
+      fail();
+    } catch (IllegalArgumentException e) {
+      //THEN
+      assertEquals("Product with id 6 not found", e.getMessage());
+    }
+
   }
 
 }
