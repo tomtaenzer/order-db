@@ -1,6 +1,6 @@
 package de.neuefische.orderdb.db;
 
-import de.neuefische.orderdb.model.Product;
+import de.neuefische.orderdb.model.product.Product;
 
 import java.util.ArrayList;
 import java.util.Collections;

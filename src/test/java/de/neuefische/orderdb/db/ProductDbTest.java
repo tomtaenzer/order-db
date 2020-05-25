@@ -1,6 +1,7 @@
 package de.neuefische.orderdb.db;
 
-import de.neuefische.orderdb.model.Product;
+import de.neuefische.orderdb.model.product.NonPerishableProduct;
+import de.neuefische.orderdb.model.product.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +18,9 @@ class ProductDbTest {
   public void listProducts(){
     //GIVEN
     ArrayList<Product> products = new ArrayList<>();
-    products.add(new Product("1", "Paprika"));
-    products.add(new Product("2", "Tomate"));
-    products.add(new Product("3", "Möhre"));
+    products.add(new NonPerishableProduct("1", "Paprika"));
+    products.add(new NonPerishableProduct("2", "Tomate"));
+    products.add(new NonPerishableProduct("3", "Möhre"));
 
     ProductDb db = new ProductDb(products);
 
@@ -28,9 +29,9 @@ class ProductDbTest {
 
     //THEN
     assertEquals(result.size(), products.size());
-    assertTrue(result.contains(new Product("1", "Paprika")));
-    assertTrue(result.contains(new Product("2", "Tomate")));
-    assertTrue(result.contains(new Product("3", "Möhre")));
+    assertTrue(result.contains(new NonPerishableProduct("1", "Paprika")));
+    assertTrue(result.contains(new NonPerishableProduct("2", "Tomate")));
+    assertTrue(result.contains(new NonPerishableProduct("3", "Möhre")));
   }
 
   @Test
@@ -38,9 +39,9 @@ class ProductDbTest {
   public void getProductByIdShouldReturnProduct(){
     //GIVEN
     ArrayList<Product> products = new ArrayList<>();
-    products.add(new Product("1", "Paprika"));
-    products.add(new Product("2", "Tomate"));
-    products.add(new Product("3", "Möhre"));
+    products.add(new NonPerishableProduct("1", "Paprika"));
+    products.add(new NonPerishableProduct("2", "Tomate"));
+    products.add(new NonPerishableProduct("3", "Möhre"));
 
     ProductDb db = new ProductDb(products);
 
@@ -48,7 +49,7 @@ class ProductDbTest {
     Optional<Product> result = db.getProductById("2");
 
     //THEN
-    assertEquals(new Product("2", "Tomate"), result.get());
+    assertEquals(new NonPerishableProduct("2", "Tomate"), result.get());
   }
 
 
@@ -57,9 +58,9 @@ class ProductDbTest {
   public void getProductByIdProductNotExists(){
     //GIVEN
     ArrayList<Product> products = new ArrayList<>();
-    products.add(new Product("1", "Paprika"));
-    products.add(new Product("2", "Tomate"));
-    products.add(new Product("3", "Möhre"));
+    products.add(new NonPerishableProduct("1", "Paprika"));
+    products.add(new NonPerishableProduct("2", "Tomate"));
+    products.add(new NonPerishableProduct("3", "Möhre"));
 
     ProductDb db = new ProductDb(products);
 

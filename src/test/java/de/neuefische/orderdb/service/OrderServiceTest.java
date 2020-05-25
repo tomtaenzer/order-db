@@ -3,10 +3,13 @@ package de.neuefische.orderdb.service;
 import de.neuefische.orderdb.db.OrderDb;
 import de.neuefische.orderdb.db.ProductDb;
 import de.neuefische.orderdb.model.Order;
-import de.neuefische.orderdb.model.Product;
+import de.neuefische.orderdb.model.product.NonPerishableProduct;
+import de.neuefische.orderdb.model.product.PerishableProduct;
+import de.neuefische.orderdb.model.product.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +22,9 @@ class OrderServiceTest {
   public void orderProductsReturnNewOrder() {
     //GIVEN
     ArrayList<Product> initialProducts = new ArrayList<>();
-    initialProducts.add(new Product("1", "Paprika"));
-    initialProducts.add(new Product("2", "Tomate"));
-    initialProducts.add(new Product("3", "Möhre"));
+    initialProducts.add(new PerishableProduct("1", "Paprika", LocalDate.of(2020, 10, 3)));
+    initialProducts.add(new NonPerishableProduct("2", "Tomate"));
+    initialProducts.add(new PerishableProduct("3", "Möhre",LocalDate.of(2021, 10, 3)));
     ProductDb productsDb = new ProductDb(initialProducts);
     OrderService service = new OrderService(productsDb, new OrderDb());
 
@@ -34,8 +37,8 @@ class OrderServiceTest {
 
     //THEN
     assertEquals(2, order.getProducts().size());
-    assertTrue(order.getProducts().contains(new Product("2", "Tomate")));
-    assertTrue(order.getProducts().contains(new Product("3", "Möhre")));
+    assertTrue(order.getProducts().contains(new NonPerishableProduct("2", "Tomate")));
+    assertTrue(order.getProducts().contains(new PerishableProduct("3", "Möhre",LocalDate.of(2021, 10, 3))));
     assertNotNull(order.getId());
   }
 
@@ -44,9 +47,9 @@ class OrderServiceTest {
   public void twoOrdersShouldHaveDifferentIds() {
     //GIVEN
     ArrayList<Product> initialProducts = new ArrayList<>();
-    initialProducts.add(new Product("1", "Paprika"));
-    initialProducts.add(new Product("2", "Tomate"));
-    initialProducts.add(new Product("3", "Möhre"));
+    initialProducts.add(new NonPerishableProduct("1", "Paprika"));
+    initialProducts.add(new NonPerishableProduct("2", "Tomate"));
+    initialProducts.add(new NonPerishableProduct("3", "Möhre"));
     ProductDb productsDb = new ProductDb(initialProducts);
     OrderService service = new OrderService(productsDb, new OrderDb());
 
@@ -69,9 +72,9 @@ class OrderServiceTest {
     OrderDb orderDb = new OrderDb();
 
     ArrayList<Product> initialProducts = new ArrayList<>();
-    initialProducts.add(new Product("1", "Paprika"));
-    initialProducts.add(new Product("2", "Tomate"));
-    initialProducts.add(new Product("3", "Möhre"));
+    initialProducts.add(new NonPerishableProduct("1", "Paprika"));
+    initialProducts.add(new NonPerishableProduct("2", "Tomate"));
+    initialProducts.add(new NonPerishableProduct("3", "Möhre"));
     ProductDb productsDb = new ProductDb(initialProducts);
     OrderService service = new OrderService(productsDb, orderDb);
 
@@ -86,8 +89,8 @@ class OrderServiceTest {
 
     //THEN
     assertEquals(2, result.getProducts().size());
-    assertTrue(result.getProducts().contains(new Product("2", "Tomate")));
-    assertTrue(result.getProducts().contains(new Product("3", "Möhre")));
+    assertTrue(result.getProducts().contains(new NonPerishableProduct("2", "Tomate")));
+    assertTrue(result.getProducts().contains(new NonPerishableProduct("3", "Möhre")));
     assertEquals(order.getId(), result.getId());
   }
 
@@ -97,12 +100,12 @@ class OrderServiceTest {
 
     OrderDb orderDb = new OrderDb();
     ArrayList<Product> products = new ArrayList<>();
-    products.add(new Product("2", "Möhre"));
+    products.add(new NonPerishableProduct("2", "Möhre"));
     Order firstOrder = new Order("2", products);
     orderDb.addOrder(firstOrder);
 
     ArrayList<Product> secondProducts = new ArrayList<>();
-    secondProducts.add(new Product("1", "Tomate"));
+    secondProducts.add(new NonPerishableProduct("1", "Tomate"));
     Order secondOrder = new Order("3", secondProducts);
     orderDb.addOrder(secondOrder);
 
@@ -123,9 +126,9 @@ class OrderServiceTest {
     OrderDb orderDb = new OrderDb();
 
     ArrayList<Product> initialProducts = new ArrayList<>();
-    initialProducts.add(new Product("1", "Paprika"));
-    initialProducts.add(new Product("2", "Tomate"));
-    initialProducts.add(new Product("3", "Möhre"));
+    initialProducts.add(new NonPerishableProduct("1", "Paprika"));
+    initialProducts.add(new NonPerishableProduct("2", "Tomate"));
+    initialProducts.add(new NonPerishableProduct("3", "Möhre"));
     ProductDb productsDb = new ProductDb(initialProducts);
     OrderService service = new OrderService(productsDb, orderDb);
 

@@ -1,15 +1,12 @@
-package de.neuefische.orderdb.model;
+package de.neuefische.orderdb.model.product;
 
 import java.util.Objects;
 
-public class Product {
+public class NonPerishableProduct implements Product {
   private String id;
   private String name;
 
-  public Product() {
-  }
-
-  public Product(String id, String name) {
+  public NonPerishableProduct(String id, String name) {
     this.id = id;
     this.name = name;
   }
@@ -30,14 +27,13 @@ public class Product {
     this.name = name;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Product product = (Product) o;
-    return Objects.equals(id, product.id) &&
-        Objects.equals(name, product.name);
+    NonPerishableProduct that = (NonPerishableProduct) o;
+    return Objects.equals(id, that.id) &&
+        Objects.equals(name, that.name);
   }
 
   @Override
@@ -47,7 +43,7 @@ public class Product {
 
   @Override
   public String toString() {
-    return "Product{" +
+    return "NonPerishableProduct{" +
         "id='" + id + '\'' +
         ", name='" + name + '\'' +
         '}';

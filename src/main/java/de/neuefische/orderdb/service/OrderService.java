@@ -3,7 +3,7 @@ package de.neuefische.orderdb.service;
 import de.neuefische.orderdb.db.OrderDb;
 import de.neuefische.orderdb.db.ProductDb;
 import de.neuefische.orderdb.model.Order;
-import de.neuefische.orderdb.model.Product;
+import de.neuefische.orderdb.model.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
